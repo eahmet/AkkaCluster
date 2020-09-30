@@ -5,7 +5,7 @@ using Akka.Actor;
 using Akka.Routing;
 using Entities.Messages;
 
-namespace Actor
+namespace FirstActor
 {
     public class RouterActor:ReceiveActor
     {

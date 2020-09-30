@@ -6,7 +6,7 @@ using Akka.Actor;
 using Entities.Dtos;
 using Entities.Messages;
 
-namespace Actor
+namespace FirstActor
 {
     public class WorkerActor:ReceiveActor
     {
