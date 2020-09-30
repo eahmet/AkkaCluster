@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Actor
+namespace FirstActor
 {
     class Program
     {

@@ -1,19 +1,15 @@
-﻿using System;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using Actor;
-using Akka.Actor;
+﻿using Akka.Actor;
 using Akka.Configuration;
 using Akka.Event;
 using Akka.HealthCheck;
 using Akka.Remote;
+using Entities.Messages;
+using FirstActor;
 using Petabridge.Cmd.Cluster;
 using Petabridge.Cmd.Host;
 using Petabridge.Cmd.Remote;
-using Akka.Cluster.Tools;
-using Entities.Messages;
-using Entities.Dtos;
+using System;
+using System.Threading;
 
 namespace Router
 {
@@ -99,7 +95,7 @@ namespace Router
 
             RouterActor = _actorSystem.ActorOf(Props.Create<RouterActor>(),"Router");
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 10; i++)
             {
                 RouterActor.Tell(new GetUserMessage(i));
             }
