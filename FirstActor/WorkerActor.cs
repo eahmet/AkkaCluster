@@ -1,31 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using Akka.Actor;
+﻿using Akka.Actor;
 using Entities.Dtos;
 using Entities.Messages;
+using System;
 
 namespace FirstActor
 {
     public class WorkerActor:ReceiveActor
     {
-        public WorkerActor()
+        private readonly IActorRef _secondActorRef = null;
+        public WorkerActor(IActorRef secondActorRef)
         {
-            Console.WriteLine("Worker Actor Started");
+            _secondActorRef = secondActorRef;
+            Console.WriteLine("First Worker Actor Started");
 
             Receive<GetUserMessage>(msg => Handle(msg));
         }
 
         private void Handle(GetUserMessage message)
         {
-            Console.WriteLine($"Response From : {this.Self.Path}");
             var sender = Sender;
+            var getUserGroupMessage = new GetUserGroupMessage(1);
+            UserGroup userGroup = (UserGroup)(_secondActorRef.Ask(getUserGroupMessage).Result);
             var response = new User()
             {
                 Name = "John",
                 Surname = "Smith",
-                UserId = message.UserId
+                UserId = message.UserId,
+                UserGroup = userGroup
             };
             Sender.Tell(response, sender);
         }

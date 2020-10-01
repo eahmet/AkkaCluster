@@ -9,5 +9,6 @@ namespace Entities.Dtos
         public string Name { get; set; }
         public string Surname { get; set; }
         public int UserId { get; set; }
+        public UserGroup UserGroup { get; set; }
     }
 }

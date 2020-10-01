@@ -5,11 +5,15 @@ VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lighthouse", "Lighthouse\Lighthouse.csproj", "{88AF7959-5A80-4033-840B-9A4F8EF95779}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Router", "Router\Router.csproj", "{D364D94A-F563-4F06-9813-D5D683FDBBB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirstRouter", "FirstRouter\FirstRouter.csproj", "{D364D94A-F563-4F06-9813-D5D683FDBBB6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FirstActor", "FirstActor\FirstActor.csproj", "{52187752-B0F3-4C61-A63A-10DE9882C4E1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{62114601-033C-425E-978F-E38DF7BDDA16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecondRouter", "SecondRouter\SecondRouter.csproj", "{7C13AC66-3A8F-4781-AFB4-AF5A4D8F7150}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecondActor", "SecondActor\SecondActor.csproj", "{2BCE1EFA-A81A-4ABD-AD7D-F040A52F01E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{62114601-033C-425E-978F-E38DF7BDDA16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62114601-033C-425E-978F-E38DF7BDDA16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62114601-033C-425E-978F-E38DF7BDDA16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C13AC66-3A8F-4781-AFB4-AF5A4D8F7150}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C13AC66-3A8F-4781-AFB4-AF5A4D8F7150}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C13AC66-3A8F-4781-AFB4-AF5A4D8F7150}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C13AC66-3A8F-4781-AFB4-AF5A4D8F7150}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BCE1EFA-A81A-4ABD-AD7D-F040A52F01E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BCE1EFA-A81A-4ABD-AD7D-F040A52F01E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BCE1EFA-A81A-4ABD-AD7D-F040A52F01E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BCE1EFA-A81A-4ABD-AD7D-F040A52F01E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

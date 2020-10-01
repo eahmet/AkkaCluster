@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Akka.Actor;
+﻿using Akka.Actor;
 using Akka.Routing;
 using Entities.Messages;
+using System;
 
-namespace FirstActor
+namespace SecondActor
 {
     public class RouterActor:ReceiveActor
     {
         private readonly IActorRef _workerActor = null;
-        private readonly IActorRef _secondWorkerActor = null;
-        public RouterActor(IActorRef secondWorkerActor)
+        public RouterActor()
         {
-            _secondWorkerActor = secondWorkerActor;
-            var config = FromConfig.Instance;
-            _workerActor= Context.ActorOf(Props.Create<WorkerActor>(_secondWorkerActor).WithRouter(FromConfig.Instance), "FirstActor");
+            _workerActor= Context.ActorOf(Props.Create<WorkerActor>().WithRouter(FromConfig.Instance), "SecondActor");
 
             Receive<string>(msg => msg.Equals("shutdown"), msg =>
             {
@@ -32,7 +27,7 @@ namespace FirstActor
             // Terminated message handler for child actors
             Receive<Terminated>(t => t.ActorRef.Equals(_workerActor), msg =>
             {
-                Console.WriteLine($"First Worker Terminated : {msg.ActorRef.ToString()}");
+                Console.WriteLine($"Second Worker Terminated : {msg.ActorRef.ToString()}");
             });
 
             // receive actor messages to process
@@ -44,7 +39,7 @@ namespace FirstActor
         }
         protected override void PreStart()
         {
-            Console.WriteLine($"First Router Starting... Path : {this.Self.Path}");
+            Console.WriteLine($"Second Router Starting... Path : {this.Self.Path}");
             base.PreStart();
         }
     }
