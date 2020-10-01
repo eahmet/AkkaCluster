@@ -17,7 +17,7 @@ namespace Lighthouse
 
 
             var clusterConfig = ConfigurationFactory.ParseString(@"lighthouse{
-                                          actorsystem: ""abodur"" 
+                                          actorsystem: ""myactorsystem"" 
                                         }
                                         petabridge.cmd{
 	                                        host = ""0.0.0.0""

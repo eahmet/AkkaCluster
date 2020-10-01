@@ -10,13 +10,16 @@ using Petabridge.Cmd.Host;
 using Petabridge.Cmd.Remote;
 using System;
 using System.Threading;
+using Entities.Dtos;
+using Akka.Routing;
 
-namespace Router
+namespace FirstRouter
 {
     class Program
     {
         private static ActorSystem _actorSystem;
         private static IActorRef RouterActor;
+        private static IActorRef SecondRouterActor;
         private static AkkaHealthCheck _akkaHealthCheck;
         private static IActorRef _listenerActor;
         private static ManualResetEvent manualResetEvent = new ManualResetEvent(false);
@@ -38,20 +41,28 @@ namespace Router
 	                                        port = 9111
                                         }
 				akka {
+                    log-config-on-start = on 
 					actor {
 						provider = ""Akka.Cluster.ClusterActorRefProvider, Akka.Cluster""
-					    serializers {
-                            akka-pubsub = ""Akka.Cluster.Tools.PublishSubscribe.Serialization.DistributedPubSubMessageSerializer, Akka.Cluster.Tools""
-                        }
-                        serialization-bindings {
-                            ""Akka.Cluster.Tools.PublishSubscribe.IDistributedPubSubMessage, Akka.Cluster.Tools"" = akka-pubsub
-                            ""Akka.Cluster.Tools.PublishSubscribe.Internal.SendToOneSubscriber, Akka.Cluster.Tools"" = akka-pubsub
-                        }
-                        serialization-identifiers {
-                            ""Akka.Cluster.Tools.PublishSubscribe.Serialization.DistributedPubSubMessageSerializer, Akka.Cluster.Tools"" = 9
-                        }
+                        ask-timeout = 60s
+                        debug {
+			                        receive = on
+			                        autoreceive = on
+			                        lifecycle = on
+			                        event-stream = on
+			                        unhandled = on
+		                        }
                         deployment {
-			                       /Router/ActorLocal {
+                                    /SecondRouter {
+				                    router = round-robin-group
+				                    routees.paths = [""/user/SecondRouter""]
+				                    cluster {
+					                    enabled = on
+					                    allow-local-routees = off
+					                    use-role = SecondRouter
+				                        }
+			                        }
+			                       /FirstRouter/FirstActor {
 				                    router = round-robin-pool
 				                    resizer {
 					                    enabled = on
@@ -67,23 +78,25 @@ namespace Router
                         }
                     }
 					remote {
-						log-remote-lifecycle-events = on
-						helios.tcp {
-							transport-class = ""Akka.Remote.Transport.Helios.HeliosTcpTransport, Akka.Remote""
-                            applied-adapters = []
-                            transport-protocol = tcp
-                            hostname = ""0.0.0.0""
-                            port = 9112
-                        }
+						maximum-payload-bytes = 83886080 bytes
+		                dot-netty.tcp {
+			                hostname = ""127.0.0.1""
+			                port = 9112
+                            connection-timeout = 15 s
+                            send-buffer-size = 256000b
+                            receive-buffer-size = 256000b
+			                maximum-frame-size = 83886080b
+                            backlog = 4096
+		                }
 					}
 					cluster {
-						seed-nodes = []
-                        roles = [seed-node-1]
+						seed-nodes = [""akka.tcp://myactorsystem@127.0.0.1:4053""]
+                        roles = [""FirstRouter""]
                     }
 				}
             ");
 
-            _actorSystem = ActorSystem.Create("abodur", clusterConfig);
+            _actorSystem = ActorSystem.Create("myactorsystem", clusterConfig);
 
             _akkaHealthCheck = AkkaHealthCheck.For(_actorSystem);
 
@@ -93,11 +106,15 @@ namespace Router
             cmd.RegisterCommandPalette(RemoteCommands.Instance);
             cmd.Start();
 
-            RouterActor = _actorSystem.ActorOf(Props.Create<RouterActor>(),"Router");
+            SecondRouterActor = _actorSystem.ActorOf(Props.Empty.WithRouter(FromConfig.Instance), "SecondRouter");
+            RouterActor = _actorSystem.ActorOf(Props.Create<RouterActor>(SecondRouterActor),"FirstRouter");
 
+            //Wait for actor system to be initialize
+            Thread.Sleep(6000);
             for (int i = 0; i < 10; i++)
             {
-                RouterActor.Tell(new GetUserMessage(i));
+                var result = (User)(RouterActor.Ask(new GetUserMessage(i)).Result);
+                Console.WriteLine($"Name: {result.Name} - Surname: {result.Surname} - UserId: {result.UserId} - UserGroupId: {result.UserGroup.UserGroupId} - UserGroupName: {result.UserGroup.UserGroupName}");
             }
             
         }
