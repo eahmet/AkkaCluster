@@ -6,14 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Akka" Version="1.4.10" />
-    <PackageReference Include="Akka.Cluster" Version="1.4.10" />
-    <PackageReference Include="Akka.Cluster.Tools" Version="1.4.10" />
-    <PackageReference Include="Akka.Remote" Version="1.4.10" />
-    <PackageReference Include="Petabridge.Cmd.Cluster" Version="0.8.0" />
-    <PackageReference Include="Petabridge.Cmd.Common" Version="0.8.0" />
-    <PackageReference Include="Petabridge.Cmd.Host" Version="0.8.0" />
-    <PackageReference Include="Petabridge.Cmd.Remote" Version="0.8.0" />
+    <PackageReference Include="Akka" Version="1.4.15" />
+    <PackageReference Include="Akka.Cluster" Version="1.4.15" />
+    <PackageReference Include="Akka.Cluster.Tools" Version="1.4.15" />
+    <PackageReference Include="Akka.Remote" Version="1.4.15" />
+    <PackageReference Include="Petabridge.Cmd.Cluster" Version="0.8.2" />
+    <PackageReference Include="Petabridge.Cmd.Common" Version="0.8.2" />
+    <PackageReference Include="Petabridge.Cmd.Host" Version="0.8.2" />
+    <PackageReference Include="Petabridge.Cmd.Remote" Version="0.8.2" />
   </ItemGroup>
 
 </Project>
